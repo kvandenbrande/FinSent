@@ -1,5 +1,37 @@
-import twitter
+import tweepy
+from tweepy import OAuthHandler
+from tweepy import Stream
+from tweepy.streaming import StreamListener
+import mysql_backend
 import re
+
+
+class Listener(StreamListener):
+    def __init__(self):
+        StreamListener.__init__(self)
+        self.cnx, self.cursor = mysql_backend.connect_db()
+
+
+    def on_data(self, data):
+        try:
+            mysql_backend.insert_tweet(self.cnx, self.cursor,
+                                       data.user.encoding("utf-8"),
+                                       data.user.time("utf-8"),
+                                       data.text.encoding("utf-8"),
+                                       data.text)
+            return True
+        except ConnectionError:
+            # Create better error catching and loggin
+            pass
+
+        return True
+
+    def on_error(self, status_code):
+        pass
+        return True
+
+    def get_stocks(self):
+
 
 
 def twitter_streaming(ticker, count):
@@ -11,10 +43,10 @@ def twitter_streaming(ticker, count):
     consumer_secret = "CwR67H27PC6nOmEVRN4AOyLgKM0JJVLqqgceNOFSXt7EAB5LfP"
     access_token_key = "750911805736837120-F7OOK2eFgEjamfAzWwOIWuSudwJl9rf"
     access_token_secret = "zYJr4tUhxCRwAMDrINRUFMYyiVkRLKhPljMRtvVYtX150"
-    api = twitter.Api(consumer_key=consumer_key,
-                      consumer_secret=consumer_secret,
-                      access_token_key=access_token_key,
-                      access_token_secret=access_token_secret)
+    auth = OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token_key, access_token_secret)
+
+    api = tweepy.API
 
     # Returns {count} most recent tweets with ticker {ticker}
     search = api.GetSearch(term=ticker, lang="en", result_type="recent", count=count)
