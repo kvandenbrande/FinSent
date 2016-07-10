@@ -21,7 +21,7 @@ class Listener(StreamListener):
                                        data.text)
             return True
         except ConnectionError:
-            # Create better error catching and loggin
+            # Create better error catching and logging
             pass
 
         return True
@@ -58,8 +58,7 @@ def twitter_streaming(ticker, count):
     return cleaned_tweets
 
 
-def clean_tweet(tweet_text):
-    return re.sub(r"(?:\@|https?\://)\S+", "", str(tweet_text))
+
 
 
 
