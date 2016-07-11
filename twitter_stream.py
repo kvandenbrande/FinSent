@@ -10,10 +10,10 @@ import mysql_backend as mb
 def twitter_streaming(track):
     # Connect to twitter API
     # Variables needed to gain access to API
-    consumer_key = "AyOYzIh3E2FZkIzDj19tOhD7d"
-    consumer_secret = "CwR67H27PC6nOmEVRN4AOyLgKM0JJVLqqgceNOFSXt7EAB5LfP"
-    access_token_key = "750911805736837120-F7OOK2eFgEjamfAzWwOIWuSudwJl9rf"
-    access_token_secret = "zYJr4tUhxCRwAMDrINRUFMYyiVkRLKhPljMRtvVYtX150"
+    consumer_key = "CONSUMER_KEY"
+    consumer_secret = "CONSUMER_SECRET"
+    access_token_key = "ACCESS_TOKEN"
+    access_token_secret = "ACCESS_TOKEN_SECRET"
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token_key, access_token_secret)
 
